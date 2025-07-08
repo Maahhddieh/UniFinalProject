@@ -1,0 +1,374 @@
+/* کلیات */
+body {
+    font-family: 'Vazir', Tahoma, sans-serif;
+    background-color: #456882;
+    color: #1B3C53;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    text-align: right;
+    position: relative;
+}
+
+/* هدر */
+header {
+    background-color: #F9F3EF;
+    padding: 15px 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 20px;
+    position: relative;
+    height: 30px;
+    overflow: visible;
+}
+
+/* لوگو روی نوار */
+.logo {
+    position: absolute;
+    top: 0px;
+    left: 30px;
+}
+
+.logo img {
+    height: 60px;
+}
+
+
+/* نوار منو */
+nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+
+nav a {
+    color: #1B3C53;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 17px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    color: #FFB823;
+    background-color: rgba(255, 184, 35, 0.2);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 184, 35, 0.4);
+}
+
+nav a.active {
+    color: #FFB823;
+    background-color: rgba(255, 184, 35, 0.3);
+    box-shadow: 0 0 10px rgba(255, 184, 35, 0.6);
+}
+
+.main-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-direction: row-reverse;
+}
+
+.image-container img {
+    width: 500px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-left: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.side-box {
+    background: rgba(249, 243, 239, 0.7);
+    border: 8px solid rgba(255, 184, 35, 0.9);
+    border-radius: 16px;
+    padding: 20px 30px;
+    max-width: 300px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 220px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #1B3C53;
+}
+
+
+.side-box p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #1B3C53;
+}
+
+.reserve-btn {
+    background-color: #F9B572;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: Vazir, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.reserve-btn:hover {
+    background-color: #f89a4c;
+    transform: scale(1.05);
+}
+
+.reserve-btn:active {
+    transform: scale(0.98);
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    background-color: rgba(249, 243, 239, 0.6);
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    padding: 30px 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    text-align: center;
+    font-family: 'Vazir', sans-serif;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container label {
+    display: block;
+    text-align: right;
+    margin: 12px 0 6px;
+    font-weight: bold;
+    color: #444;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    font-size: 15px;
+    direction: rtl;
+}
+
+.login-container button {
+    margin-top: 20px;
+    background-color: #004080;
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.login-container button:hover {
+    background-color: #0066cc;
+}
+
+.register-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #004080;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-container {
+    width: 400px;
+    margin: 100px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Vazir', sans-serif;
+    text-align: right;
+}
+
+.signup-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.signup-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #444;
+}
+
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+.signup-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3a86ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.signup-container button:hover {
+    background-color: #265ecf;
+}
+
+.signup-container .login-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.messages li {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.dashboard-container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #cc3333;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #a60000;
+}
+
+.placement-form-container {
+    width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    direction: rtl;
+    font-family: 'Vazir';
+}
+
+.placement-form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.reservation-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.reservation-btn:hover {
+    background-color: #45a049;
+}
+
+
+footer {
+    background-color: #F9F3EF;
+    color: #1B3C53;
+    padding: 15px;
+    text-align: center;
+    margin-top: 30px;
+}

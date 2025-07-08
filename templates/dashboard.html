@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}داشبورد{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>سلام {{ user.username }}!</h2>
+    <p>به حساب کاربری خود خوش آمدید.</p>
+
+    <a href="{% url 'logout' %}" class="logout-btn">خروج از حساب</a>
+</div>
+{% endblock %}

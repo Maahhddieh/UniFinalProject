@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}ورود به حساب کاربری{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2>ورود به حساب کاربری</h2>
+
+    <!-- نمایش پیام‌های خطا یا موفقیت -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">نام کاربری:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">رمز عبور:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">ورود</button>
+
+        <p class="register-link">حساب ندارید؟ <a href="{% url 'signup' %}">ثبت‌نام کنید</a></p>
+    </form>
+</div>
+{% endblock %}

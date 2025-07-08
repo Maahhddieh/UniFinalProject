@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}صفحه اصلی{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="image-container">
+        <img src="../static/images/image2.png" alt="تصویر اصلی">
+    </div>
+    <div class="side-box">
+        <p>برای شروع یادگیری زبان انگلیسی همین حالا دکمه پایین رو بزن!</p>
+        <a href="{% url 'placement_test' %}" class="reserve-btn">رزرو تعیین سطح</a>
+    </div>
+</div>
+{% endblock %}
