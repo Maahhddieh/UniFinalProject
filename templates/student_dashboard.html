@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Hi there! {{ user.username }}!</h2>
+    <p>Welcome to your account</p>
+
+    <a href="{% url 'logout' %}" class="logout-btn">logout</a>
+</div>
+{% endblock %}

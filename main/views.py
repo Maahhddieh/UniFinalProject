@@ -1,13 +1,18 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .forms import PlacementTestReservationForm
-import re
+from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+import re
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import PlacementTestReservationForm
+from django.http import JsonResponse
+from .models import PlacementTestReservation
+
+
+User = get_user_model()
 
 
 def home(request):
@@ -16,17 +21,26 @@ def home(request):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+
+        if not username or not password:
+            messages.error(request, 'Username and password are required.')
+            return render(request, 'login.html')
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            if user.user_type == 'teacher':
+                return redirect('teacher_dashboard')
+            else:
+                return redirect('student_dashboard')
         else:
             messages.error(request, 'Wrong username or password!')
 
     return render(request, 'login.html')
+
+
 
 
 
@@ -36,20 +50,25 @@ def signup(request):
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
         confirm = request.POST.get('confirm_password', '')
+        user_type = request.POST.get('user_type', '').strip()
+        registration_code = request.POST.get('registration_code', '').strip()
 
-        # 1. هیچ فیلدی خالی نمونه
-        if not username or not email or not password or not confirm:
-            messages.error(request, 'All fields are required.')
+        if not username or not email or not password or not confirm or not user_type:
+            messages.error(request, 'All fields are required, including user type.')
             return redirect('signup')
 
-        # 2. ایمیل معتبر
+        if user_type == 'teacher':
+            VALID_CODE = "moon123789@"
+            if registration_code != VALID_CODE:
+                messages.error(request, 'Invalid registration code for teacher.')
+                return redirect('signup')
+
         try:
             validate_email(email)
         except ValidationError:
             messages.error(request, 'Invalid email address.')
             return redirect('signup')
 
-        # 3. پسورد قوی
         password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$'
         if not re.match(password_regex, password):
             messages.error(request, 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.')
@@ -68,6 +87,9 @@ def signup(request):
             return redirect('signup')
 
         user = User.objects.create_user(username=username, email=email, password=password)
+        user.user_type = user_type
+        user.save()
+
         messages.success(request, 'Successful registration! You can login now.')
         return redirect('login')
 
@@ -75,9 +97,15 @@ def signup(request):
 
 
 
+
 @login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def student_dashboard(request):
+    return render(request, 'student_dashboard.html')
+
+@login_required
+def teacher_dashboard(request):
+    return render(request, 'teacher_dashboard.html')
+
 
 
 def logout_view(request):
@@ -87,10 +115,6 @@ def logout_view(request):
 
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import PlacementTestReservationForm
-
 @login_required
 def placement_test(request):
     if request.method == 'POST':
@@ -99,7 +123,7 @@ def placement_test(request):
             reservation = form.save(commit=False)
             reservation.user = request.user
             reservation.save()
-            return redirect('reservation_success')  # ریدایرکت به صفحه موفقیت
+            return redirect('reservation_success')
     else:
         form = PlacementTestReservationForm()
     return render(request, 'placement_test.html', {'form': form})
@@ -108,8 +132,6 @@ def placement_test(request):
 def reservation_success(request):
     return render(request, 'reservation_success.html')
 
-from django.http import JsonResponse
-from .models import PlacementTestReservation
 
 def get_reserved_times(request):
     date = request.GET.get('date')

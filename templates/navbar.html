@@ -1,12 +1,17 @@
+{% load static %}
 <header>
     <div class="logo">
-        <img src="../static/images/logo1.png" alt="logo" />
+        <img src="{% static 'images/logo1.png' %}" alt="logo" />
     </div>
     <nav class="navbar">
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Account</a></li>
+                {% if user.user_type == 'teacher' %}
+                    <li><a href="{% url 'teacher_dashboard' %}">Account</a></li>
+                {% else %}
+                    <li><a href="{% url 'student_dashboard' %}">Account</a></li>
+                {% endif %}
             {% else %}
                 <li><a href="{% url 'login' %}">login/register</a></li>
             {% endif %}

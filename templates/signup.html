@@ -22,6 +22,7 @@
 
     <form method="post">
         {% csrf_token %}
+
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
@@ -44,6 +45,18 @@
         <label for="confirm_password">Confirm Password:</label>
         <input type="password" id="confirm_password" name="confirm_password" required>
 
+        <label for="user_type">Register as:</label>
+        <select name="user_type" id="user_type" required onchange="toggleRegistrationCode()">
+            <option value="">Select user type</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+
+        <div id="registration_code_div" style="display:none;">
+            <label for="registration_code">Registration Code:</label>
+            <input type="text" name="registration_code" id="registration_code">
+        </div>
+
         <button type="submit">Signup</button>
 
         <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login</a></p>
@@ -61,5 +74,20 @@
         document.getElementById('digit').className = /\d/.test(value) ? 'valid' : 'invalid';
         document.getElementById('special').className = /[\W_]/.test(value) ? 'valid' : 'invalid';
     });
+
+    function toggleRegistrationCode() {
+        const userType = document.getElementById('user_type').value;
+        const regDiv = document.getElementById('registration_code_div');
+        const regInput = document.getElementById('registration_code');
+        if (userType === 'teacher') {
+            regDiv.style.display = 'block';
+            regInput.setAttribute('required', 'required');
+        } else {
+            regDiv.style.display = 'none';
+            regInput.removeAttribute('required');
+            regInput.value = '';
+        }
+    }
 </script>
+
 {% endblock %}
