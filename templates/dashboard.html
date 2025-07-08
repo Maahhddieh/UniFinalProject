@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}داشبورد{% endblock %}
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
-    <h2>سلام {{ user.username }}!</h2>
-    <p>به حساب کاربری خود خوش آمدید.</p>
+    <h2>Hi there! {{ user.username }}!</h2>
+    <p>Welcome to your account</p>
 
-    <a href="{% url 'logout' %}" class="logout-btn">خروج از حساب</a>
+    <a href="{% url 'logout' %}" class="logout-btn">logout</a>
 </div>
 {% endblock %}

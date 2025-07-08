@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Reservation Successful{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reservation_success.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <h1>🎉 Reservation Successful!</h1>
+    <p>Thank you for booking your placement test with Moon English Academy.</p>
+    <p>We will contact you soon with the details.</p>
+    <a href="{% url 'home' %}" class="btn-home">Back to Home</a>
+</div>
+{% endblock %}

@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}آموزشگاه زبان{% endblock %}</title>
+    <title>{% block title %}Moon English Academy{% endblock %}</title>
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {%include 'navbar.html' %}
+
+    {% include 'navbar.html' %}
 
     <main>
         {% block content %}{% endblock %}
     </main>
 
     {% include 'footer.html' %}
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

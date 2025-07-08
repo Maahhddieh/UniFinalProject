@@ -1,45 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}رزرو تعیین سطح{% endblock %}
+{% block title %}Placement Test Booking{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/placement_test.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="placement-form-container">
-    <h2>رزرو وقت تعیین سطح</h2>
-    <form method="post">
+
+<div class="reservation-container">
+    <h2>Book Your Placement Test</h2>
+    <form method="post" novalidate>
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="id_full_name">نام و نام خانوادگی:</label>
+            <label for="{{ form.full_name.id_for_label }}">Full Name</label>
             {{ form.full_name }}
-            {{ form.full_name.errors }}
+            {% if form.full_name.errors %}
+                <div class="error">{{ form.full_name.errors }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="id_phone">شماره تماس:</label>
+            <label for="{{ form.phone.id_for_label }}">Phone Number</label>
             {{ form.phone }}
-            {{ form.phone.errors }}
+            {% if form.phone.errors %}
+                <div class="error">{{ form.phone.errors }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="id_language_background">در صورتی که قبلاً در کلاس زبان شرکت کرده‌اید، سطح خود را شرح دهید:</label>
-            {{ form.language_background }}
-            {{ form.language_background.errors }}
+            <label for="{{ form.level.id_for_label }}">English Level</label>
+            {{ form.level }}
+            {% if form.level.errors %}
+                <div class="error">{{ form.level.errors }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="id_date">تاریخ:</label>
+            <label for="{{ form.date.id_for_label }}">Date</label>
             {{ form.date }}
-            {{ form.date.errors }}
+            {% if form.date.errors %}
+                <div class="error">{{ form.date.errors }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
-            <label for="id_time">ساعت:</label>
+            <label for="{{ form.time.id_for_label }}">Time</label>
             {{ form.time }}
-            {{ form.time.errors }}
+            {% if form.time.errors %}
+                <div class="error">{{ form.time.errors }}</div>
+            {% endif %}
         </div>
 
-        <button type="submit" class="reservation-btn">رزرو</button>
+        <button type="submit" class="submit-btn">Book Now</button>
     </form>
-
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('id_date');
+    const timeSelect = document.getElementById('id_time');
+
+    dateInput.addEventListener('change', function () {
+        const selectedDate = this.value;
+        if (selectedDate) {
+            fetch(`/get-reserved-times/?date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    const reserved = data.reserved_times;
+
+                    for (let option of timeSelect.options) {
+                        if (reserved.includes(option.value)) {
+                            option.disabled = true;
+                            option.textContent = option.value + ' (unavailable)';
+                        } else {
+                            option.disabled = false;
+                            option.textContent = option.value;
+                        }
+                    }
+                });
+        }
+    });
+});
+</script>
 {% endblock %}

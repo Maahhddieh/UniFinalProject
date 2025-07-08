@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}ثبت‌نام کاربر{% endblock %}
+{% block title %}Signup{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
 
 {% block content %}
+
 <div class="signup-container">
-    <h2>ثبت‌نام</h2>
+    <h2>Signup</h2>
 
     {% if messages %}
         <ul class="messages">
@@ -16,21 +22,44 @@
 
     <form method="post">
         {% csrf_token %}
-        <label for="username">نام کاربری:</label>
+        <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
-        <label for="email">ایمیل:</label>
+        <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="password">رمز عبور:</label>
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <label for="confirm_password">تکرار رمز عبور:</label>
+        <div id="password-hints">
+            <ul>
+                <li id="length" class="invalid">At least 8 characters</li>
+                <li id="upper" class="invalid">Uppercase letter</li>
+                <li id="lower" class="invalid">Lowercase letter</li>
+                <li id="digit" class="invalid">Number</li>
+                <li id="special" class="invalid">Special character</li>
+            </ul>
+        </div>
+
+        <label for="confirm_password">Confirm Password:</label>
         <input type="password" id="confirm_password" name="confirm_password" required>
 
-        <button type="submit">ثبت‌نام</button>
+        <button type="submit">Signup</button>
 
-        <p class="login-link">حساب دارید؟ <a href="{% url 'login' %}">وارد شوید</a></p>
+        <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </form>
 </div>
+
+<script>
+    const passwordInput = document.getElementById('password');
+
+    passwordInput.addEventListener('input', function () {
+        const value = passwordInput.value;
+        document.getElementById('length').className = value.length >= 8 ? 'valid' : 'invalid';
+        document.getElementById('upper').className = /[A-Z]/.test(value) ? 'valid' : 'invalid';
+        document.getElementById('lower').className = /[a-z]/.test(value) ? 'valid' : 'invalid';
+        document.getElementById('digit').className = /\d/.test(value) ? 'valid' : 'invalid';
+        document.getElementById('special').className = /[\W_]/.test(value) ? 'valid' : 'invalid';
+    });
+</script>
 {% endblock %}

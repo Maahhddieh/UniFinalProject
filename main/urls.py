@@ -8,4 +8,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.logout_view, name='logout'),
     path('placement_test/', views.placement_test, name='placement_test'),
+    path('reservation-success/', views.reservation_success, name='reservation_success'),
+    path('get-reserved-times/', views.get_reserved_times, name='get_reserved_times'),
 ]

@@ -1,18 +1,18 @@
 <header>
     <div class="logo">
-        <img src="../static/images/logo1.png" alt="لوگو" />
+        <img src="../static/images/logo1.png" alt="logo" />
     </div>
     <nav class="navbar">
         <ul>
-            <li><a href="{% url 'home' %}">صفحه اصلی</a></li>
+            <li><a href="{% url 'home' %}">Home</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">حساب کاربری</a></li>
+                <li><a href="{% url 'dashboard' %}">Account</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}">ورود/ثبت‌نام</a></li>
+                <li><a href="{% url 'login' %}">login/register</a></li>
             {% endif %}
-            <li><a href="#">کلاس‌ها</a></li>
-            <li><a href="#">ارتباط با ما</a></li>
-            <li><a href="#">درباره ما</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">About us</a></li>
         </ul>
     </nav>
 </header>

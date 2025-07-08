@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}ورود به حساب کاربری{% endblock %}
+{% block title %}login{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="login-container">
-    <h2>ورود به حساب کاربری</h2>
+    <h2>Login account</h2>
 
-    <!-- نمایش پیام‌های خطا یا موفقیت -->
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -17,15 +21,15 @@
 
     <form method="post">
         {% csrf_token %}
-        <label for="username">نام کاربری:</label>
+        <label for="username">Username": </label>
         <input type="text" id="username" name="username" required>
 
-        <label for="password">رمز عبور:</label>
+        <label for="password">Password: </label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit">ورود</button>
+        <button type="submit">Login</button>
 
-        <p class="register-link">حساب ندارید؟ <a href="{% url 'signup' %}">ثبت‌نام کنید</a></p>
+        <p class="register-link">dont have an account? <a href="{% url 'signup' %}">Register now</a></p>
     </form>
 </div>
 {% endblock %}
