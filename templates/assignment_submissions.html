@@ -15,6 +15,18 @@
                     <strong>{{ submission.student.username }}</strong><br>
                     Submitted on: {{ submission.submitted_at|date:"Y-m-d H:i" }}<br>
                     <a href="{{ submission.submitted_file.url }}" download>Download Submission</a>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="submission_id" value="{{ submission.id }}">
+
+                        <label>Grade:</label>
+                        <input type="number" name="grade" min="0" max="100" value="{{ submission.grade|default_if_none:'' }}" required><br>
+
+                        <label>Feedback:</label><br>
+                        <textarea name="feedback" rows="3" cols="40">{{ submission.feedback }}</textarea><br>
+
+                        <button type="submit">Submit Grade</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>

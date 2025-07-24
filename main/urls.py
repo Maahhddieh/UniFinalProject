@@ -31,4 +31,6 @@ urlpatterns = [
     path('course/<int:course_id>/assignments/', views.student_assignments_view, name='student_course_assignments'),
     path('assignments/<int:assignment_id>/submissions/', views.assignment_submissions_view, name='assignment_submissions'),
     path('course/<int:course_id>/assignments/', views.student_assignments_view, name='student_assignments_view'),
+    path('teacher/assignment/<int:assignment_id>/submissions/', views.assignment_submissions_view, name='assignment_submissions_view'),
 ]
+

@@ -80,3 +80,16 @@
     color: #888;
     font-size: 1.1rem;
 }
+
+.submission-feedback {
+    background-color: #f5f7ff;
+    border: 1px solid #d1ddff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    color: #333;
+}
+.submission-feedback p {
+    margin: 4px 0;
+}
+

@@ -571,14 +571,31 @@ def student_assignments_view(request, course_id):
         'course': course,
         'assignments': assignments,
         'submitted_assignment_ids': list(submitted_assignment_ids),
+        'submissions': submissions,
         'now': timezone.now()
     })
 
+
+
+@login_required
 def assignment_submissions_view(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
     submissions = AssignmentSubmission.objects.filter(assignment=assignment)
 
+    if request.method == 'POST':
+        submission_id = request.POST.get('submission_id')
+        grade = request.POST.get('grade')
+        feedback = request.POST.get('feedback')
+
+        submission = get_object_or_404(AssignmentSubmission, id=submission_id)
+        submission.grade = grade
+        submission.feedback = feedback
+        submission.graded = True
+        submission.save()
+
+        return redirect('assignment_submissions_view', assignment_id=assignment.id)
+
     return render(request, 'assignment_submissions.html', {
         'assignment': assignment,
-        'submissions': submissions,
+        'submissions': submissions
     })

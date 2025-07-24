@@ -27,9 +27,21 @@
                         <button type="submit">Submit</button>
                     </form>
                 {% endif %}
+            {% elif assignment.deadline < now and assignment.id in submitted_assignment_ids %}
+                <p>Already Submitted</p>
             {% else %}
                 <p style="color: red;">Deadline Passed</p>
             {% endif %}
+                {% for submission in submissions %}
+            {% if submission.assignment.id == assignment.id %}
+                {% if submission.graded %}
+                    <div class="submission-feedback">
+                        <p><strong>Grade:</strong> {{ submission.grade }}</p>
+                        <p><strong>Feedback:</strong> {{ submission.feedback }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
         </div>
     {% empty %}
         <p>No current assignments.</p>

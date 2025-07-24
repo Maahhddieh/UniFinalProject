@@ -1,18 +1,17 @@
 .submission-container {
     max-width: 800px;
     margin: 40px auto;
-    background-color: #fdfdfd;
+    background-color: #fafafa;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    font-family: "Segoe UI", sans-serif;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .submission-container h2 {
-    margin-bottom: 25px;
-    color: #333;
     text-align: center;
-    font-size: 24px;
+    color: #333;
+    margin-bottom: 30px;
 }
 
 .submission-container ul {
@@ -21,37 +20,67 @@
 }
 
 .submission-container li {
-    background-color: #f3f3f3;
-    padding: 15px 20px;
-    margin-bottom: 15px;
+    background: #ffffff;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    border-left: 6px solid #4CAF50;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
 
-.submission-container li strong {
+.submission-container strong {
+    color: #444;
     font-size: 16px;
-    color: #222;
 }
 
 .submission-container a {
     display: inline-block;
-    margin-top: 8px;
-    padding: 6px 12px;
-    background-color: #4CAF50;
-    color: #fff;
-    border-radius: 5px;
+    margin-top: 5px;
+    color: #1e88e5;
     text-decoration: none;
+}
+
+.submission-container form {
+    margin-top: 15px;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.submission-container label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #222;
+}
+
+.submission-container input[type="number"],
+.submission-container textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
     font-size: 14px;
-    transition: background-color 0.3s;
+    box-sizing: border-box;
 }
 
-.submission-container a:hover {
+.submission-container textarea {
+    resize: vertical;
+}
+
+.submission-container button[type="submit"] {
+    margin-top: 12px;
+    background-color: #4CAF50;
+    color: white !important;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submission-container button[type="submit"]:hover {
     background-color: #45a049;
-}
-
-.submission-container p {
-    text-align: center;
-    color: #666;
-    font-style: italic;
 }
