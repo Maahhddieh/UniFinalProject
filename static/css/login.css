@@ -59,3 +59,25 @@
     text-decoration: none;
     font-weight: bold;
 }
+
+.messages {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.messages .error {
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.messages .success {
+    color: #fff;
+    background-color: #2ecc71;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}

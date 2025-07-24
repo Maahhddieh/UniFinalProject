@@ -1,0 +1,122 @@
+.main-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    /*flex-direction: row-reverse;*/
+}
+
+.image-container img {
+    width: 500px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-left: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.side-box {
+    background: rgba(249, 243, 239, 0.7);
+    border: 8px solid rgba(255, 184, 35, 0.9);
+    border-radius: 16px;
+    padding: 20px 30px;
+    max-width: 300px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 220px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #1B3C53;
+}
+
+
+.side-box p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #1B3C53;
+}
+
+.reserve-btn {
+    background-color: #F9B572;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: Vazir, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.reserve-btn:hover {
+    background-color: #f89a4c;
+    transform: scale(1.05);
+}
+
+.reserve-btn:active {
+    transform: scale(0.98);
+}
+
+
+.teacher-preview-section {
+    margin: 80px auto 0 auto;
+    padding: 10px 70px;
+    max-width: 1000px;
+    background-color: #f0f6ff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.teacher-preview-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.teacher-card {
+    width: 150px;
+    text-align: center;
+}
+
+.teacher-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.teacher-card img:hover {
+    transform: scale(1.05);
+}
+
+.teacher-card p {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.see-more-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #0051a2;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.see-more-btn:hover {
+    background-color: #003f7f;
+}

@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home page{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="main-content">
     <div class="image-container">
-        <img src="../static/images/image2.png" alt="Main Photo">
+        <img src="../static/images/homepic.png" alt="Main Photo">
     </div>
     <div class="side-box">
         <p>Press the Button below to start learning English!</p>
         <a href="{% url 'placement_test' %}" class="reserve-btn">Reserve Time now!</a>
     </div>
+</div>
+
+<div class="teacher-preview-section">
+    <h2>Meet Some of Our Teachers</h2>
+    <div class="teacher-preview-box">
+        {% for teacher in top_teachers %}
+            <div class="teacher-card">
+                <img src="{{ teacher.profile_image.url }}" alt="{{ teacher.username }}">
+                <p>{{ teacher.username }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'teacher_list' %}" class="see-more-btn">See More</a>
 </div>
 {% endblock %}

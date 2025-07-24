@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/submission_list.css' %}">
+{% endblock %}
+<div class="submission-container">
+    <h2>Submissions for: {{ assignment.title }}</h2>
+
+    {% if submissions %}
+        <ul>
+            {% for submission in submissions %}
+                <li>
+                    <strong>{{ submission.student.username }}</strong><br>
+                    Submitted on: {{ submission.submitted_at|date:"Y-m-d H:i" }}<br>
+                    <a href="{{ submission.submitted_file.url }}" download>Download Submission</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No submissions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

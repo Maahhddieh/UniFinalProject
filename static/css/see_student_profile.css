@@ -1,0 +1,82 @@
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.student-info {
+    background-color: #f0f8ff;
+    border-left: 5px solid #3498db;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.student-info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.enrollment-section {
+    margin-bottom: 30px;
+}
+
+.enrollment-section h3 {
+    font-size: 20px;
+    color: #34495e;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.enrollment-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.enrollment-section li {
+    padding: 6px 0;
+    font-size: 15px;
+}
+
+.enrollment-section p {
+    color: #7f8c8d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #2980b9;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 8px solid rgba(0, 0, 139, 0.9);
+}
+

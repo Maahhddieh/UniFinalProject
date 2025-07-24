@@ -15,7 +15,7 @@
             {% else %}
                 <li><a href="{% url 'login' %}">login/register</a></li>
             {% endif %}
-            <li><a href="#">Courses</a></li>
+            <li><a href="{% url 'courses_list' %}">Courses</a></li>
             <li><a href="#">Contact us</a></li>
             <li><a href="#">About us</a></li>
         </ul>

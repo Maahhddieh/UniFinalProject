@@ -1,6 +1,10 @@
 from django import forms
-from .models import PlacementTestReservation
+from .models import PlacementTestReservation, EnrollmentRequest, Assignment
 import datetime
+from .models import Course
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 ENGLISH_LEVELS = [
     ('Beginner', 'Beginner'),
@@ -18,6 +22,7 @@ current = datetime.datetime.combine(datetime.date.today(), start)
 while current.time() <= end:
     TIME_CHOICES.append((current.time().strftime('%H:%M'), current.time().strftime('%H:%M')))
     current += datetime.timedelta(minutes=15)
+
 
 class PlacementTestReservationForm(forms.ModelForm):
     date = forms.DateField(
@@ -55,3 +60,58 @@ class PlacementTestReservationForm(forms.ModelForm):
             time = datetime.datetime.strptime(time_str, '%H:%M').time()
             if PlacementTestReservation.objects.filter(date=date, time=time).exists():
                 raise forms.ValidationError('This time slot is already booked.')
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'required_level', 'description', 'class_days', 'class_time']
+
+
+class StudentSearchForm(forms.Form):
+    query = forms.CharField(label='Search students', required=False)
+
+
+class AddStudentToCourseForm(forms.Form):
+    student_id = forms.IntegerField(widget=forms.HiddenInput())
+
+    course_id = forms.ModelChoiceField(
+        queryset=Course.objects.none(),
+        label="Select a class",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        teacher = kwargs.pop('teacher', None)
+        super().__init__(*args, **kwargs)
+        if teacher:
+            self.fields['course_id'].queryset = Course.objects.filter(teacher=teacher)
+
+
+class SetStudentLevelForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['level']
+        widgets = {
+            'level': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+
+class EnrollmentRequestForm(forms.ModelForm):
+    class Meta:
+        model = EnrollmentRequest
+        fields = ['full_name', 'age', 'email', 'phone', 'message']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Optional message to the teacher'}),
+        }
+
+
+
+
+class AssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ['title', 'description', 'deadline']
+        widgets = {
+            'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        }

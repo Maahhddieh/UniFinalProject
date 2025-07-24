@@ -1,0 +1,88 @@
+h2 {
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #dddddd;
+    font-size: 2rem;
+}
+
+.teacher-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 40px;
+}
+
+.teacher-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.teacher-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.teacher-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #e0e0e0;
+}
+
+.teacher-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.teacher-rating {
+    font-size: 1rem;
+    color: #f59e0b;
+}
+
+.active-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.active-btn:hover {
+    background-color: #218838;
+}
+
+.already-rated {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: not-allowed;
+}
+
+.disabled-btn {
+    background-color: #cccccc;
+    color: #666;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: not-allowed;
+}

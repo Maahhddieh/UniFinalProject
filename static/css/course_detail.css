@@ -1,0 +1,230 @@
+.course-detail {
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+}
+
+.course-detail h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #2980b9;
+    padding-bottom: 8px;
+}
+
+.course-detail p {
+    font-size: 1.1rem;
+    margin: 8px 0 20px 0;
+}
+
+.course-detail h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 18px;
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 6px;
+}
+
+.course-detail ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.course-detail ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f9fc;
+    border: 1px solid #dfe6ed;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.course-detail ul li:hover {
+    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2);
+}
+
+.course-detail ul li a {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.course-detail ul li a:hover {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.course-detail a[href$="teacher_dashboard"] {
+    display: inline-block;
+    margin-top: 40px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+.course-detail a[href$="teacher_dashboard"]:hover {
+    background-color: #2980b9;
+}
+
+
+.student-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.grade-form {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.grade-form label {
+    font-weight: 500;
+}
+
+.grade-form input[type="number"] {
+    width: 70px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.grade-form button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+.grade-form button:hover {
+    background-color: #1e8449;
+}
+
+.remove-course {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.remove-course:hover {
+    background-color: #c0392b;
+    transform: scale(1.03);
+}
+
+.remove-course:active {
+    background-color: #a93226;
+    transform: scale(0.97);
+}
+
+.set-link-form {
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 600px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.set-link-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.set-link-form input[type="url"] {
+  width: 99%;
+  padding: 10px 3px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.set-link-form input[type="url"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.set-link-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.set-link-form button:hover {
+  background-color: #0056b3;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.messages li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+
+
+
+

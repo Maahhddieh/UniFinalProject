@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Courses{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/courses_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="courses-page">
+<h2>All Courses</h2>
+<ul>
+    {% for course in courses %}
+    <li>
+        <h3>{{ course.title }}</h3>
+        <p><strong>Days:</strong> {{ course.class_days }}</p>
+        <p><strong>Time:</strong> {{ course.class_time }}</p>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <p><strong>Teacher's Name:</strong> {{ course.teacher.username }}</p>
+        {% if request.user.user_type == "student" %}
+            <a href="{% url 'send_enrollment_request' course.id %}" class="enroll-btn">Enroll</a>
+        {% endif %}
+    </li>
+    {% empty %}
+    <li>No courses available.</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,187 @@
+.dashboard-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #f9f9f9;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+}
+
+.dashboard-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #34495e;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.dashboard-container form {
+    margin-bottom: 30px;
+}
+
+.dashboard-container form button {
+    background-color: #b30000;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.dashboard-container form button:hover {
+    background-color: #721c19;
+}
+
+.dashboard-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dashboard-container ul li {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.dashboard-container ul li:hover {
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.student-info {
+    margin-bottom: 12px;
+}
+
+.student-info strong {
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.student-info em {
+    font-size: 14px;
+    color: #7f8c8d;
+    display: block;
+    margin-top: 4px;
+}
+
+.student-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.student-actions form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-actions label {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.student-actions select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-width: 160px;
+    background-color: white;
+}
+
+.student-actions .add-btn {
+    background-color: #2ecc71;
+}
+
+.student-actions .add-btn:hover {
+    background-color: #27ae60;
+}
+
+.student-actions .level-btn {
+    background-color: #e67e22;
+}
+
+.student-actions .level-btn:hover {
+    background-color: #d35400;
+}
+
+@media (max-width: 600px) {
+    .student-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .student-actions form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .student-actions select,
+    .student-actions button {
+        width: 100%;
+    }
+}
+
+
+
+.view-profile-btn {
+    padding: 8px 14px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.view-profile-btn:hover {
+    background-color: #2980b9;
+}
+
+.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.messages li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.messages li.info {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 4px 7px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #2c80b4;
+}

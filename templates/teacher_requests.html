@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enrollment Requests{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teacher_requests.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="requests-container">
+    <h2 class="title">Enrollment Requests</h2>
+
+    <a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
+
+    {% if requests %}
+        <ul class="requests-list">
+            {% for req in requests %}
+                <li class="request-card">
+                    <h3>{{ req.full_name }}</h3>
+                    <p><strong>Age:</strong> {{ req.age }}</p>
+                    <p><strong>Email:</strong> {{ req.email }}</p>
+                    <p><strong>Phone:</strong> {{ req.phone }}</p>
+                    <p><strong>Current Level:</strong> {{ req.student.level|default:"Not set" }}</p>
+                    <p><strong>Requested Course:</strong> {{ req.course.title }}</p>
+                    <p><strong>Class Time:</strong> {{ req.course.class_days }} | {{ req.course.class_time }}</p>
+                    <p><strong>Description:</strong> {{ req.course.description }}</p>
+                    <p class="submitted-at"><em>Submitted at: {{ req.created_at }}</em></p>
+                    <a href="{% url 'student_profile_detail' req.student.id %}" class="view-profile-btn">View Profile</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-requests">No enrollment requests yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/see_student_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Student Profile</h2>
+
+    <div class="student-info">
+        <img src="{{ student.profile_image.url }}" alt="Profile Image" class="profile-picture"/>
+
+        <p><strong>Full Name:</strong> {{ student.username }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Current Level:</strong> {{ student.level|default:"Not set" }}</p>
+    </div>
+
+    <div class="enrollment-section">
+        <h3>Current Enrollments</h3>
+        {% if current_enrollments %}
+            <ul>
+                {% for e in current_enrollments %}
+                    <li>{{ e.course.title }} ({{ e.course.class_days }} | {{ e.course.class_time }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No current enrollments.</p>
+        {% endif %}
+    </div>
+
+    <div class="enrollment-section">
+        <h3>Passed Courses</h3>
+        {% if passed_enrollments %}
+            <ul>
+                {% for e in passed_enrollments %}
+                    <li>{{ e.course.title }} - Grade: {{ e.grade }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No passed courses.</p>
+        {% endif %}
+    </div>
+
+    <div class="enrollment-section">
+        <h3>Failed Courses</h3>
+        {% if failed_enrollments %}
+            <ul>
+                {% for e in failed_enrollments %}
+                    <li>{{ e.course.title }} - Grade: {{ e.grade }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No failed courses.</p>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'teacher_requests' %}" class="back-btn">← Back to Requests</a>
+</div>
+{% endblock %}

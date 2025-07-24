@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - Students{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="course-detail">
+<h2>Course: {{ course.title }}</h2>
+<p><strong>Days:</strong> {{ course.class_days }}</p>
+<p><strong>Time:</strong> {{ course.class_time }}</p>
+<form action="{% url 'set_course_link' course.id %}" method="post" class="set-link-form">
+    {% csrf_token %}
+    <label for="join_link">Join Link:</label>
+    <input type="url" name="join_link" id="join_link" placeholder="https://..." value="{{ course.join_link }}" required>
+    <button type="submit">Save Link</button>
+</form>
+<a href="{% url 'assignment_list_create' course.id %}" class="assignment-btn">Assignments</a>
+<a href="{% url 'delete_course' course.id %}"
+                onclick="return confirm('Are you sure you want to remove this course?');"
+                class="remove-course">Remove Course</a>
+
+<h3>Students Enrolled:</h3>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% if enrollments %}
+    <ul>
+    {% for enrollment in enrollments %}
+        <li>
+            <div class="student-info">
+                {{ enrollment.student.username }} ({{ enrollment.student.email }})
+                <a href="{% url 'remove_student_from_course' course.id enrollment.student.id %}"
+                onclick="return confirm('Are you sure you want to remove this student?');"
+                class="remove-btn">Remove</a>
+            </div>
+
+            <form method="post" action="{% url 'set_student_grade' course.id enrollment.student.id %}" class="grade-form">
+                {% csrf_token %}
+                <label for="grade_{{ enrollment.student.id }}">Grade:</label>
+                <input type="number" name="grade" id="grade_{{ enrollment.student.id }}" min="0" max="100"
+                    value="{{ enrollment.grade }}" required>
+                <button type="submit">Save</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students enrolled in this course.</p>
+{% endif %}
+
+<a href="{% url 'teacher_dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}

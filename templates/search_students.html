@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Students{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/search_students.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Search and Add Students to Course</h2>
+    <a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if results %}
+        <h3>Results:</h3>
+        <ul>
+            {% for student in results %}
+                <li>
+                    <div class="student-info">
+                        <strong>{{ student.username }}</strong> ({{ student.email }})<br>
+                        <em>Current Level:</em> {{ student.get_level_display|default:"Not set" }}
+                    </div>
+
+                    <a href="{% url 'student_profile_detail' student.id %}" class="view-profile-btn">View Profile</a>
+
+                    <div class="student-actions">
+                        <form method="post" action="{% url 'add_student_to_course' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="student_id" value="{{ student.id }}">
+                            <label for="course_id_{{ student.id }}">Choose course:</label>
+                            <select name="course_id" id="course_id_{{ student.id }}" required>
+                                {% for course in request.user.course_set.all %}
+                                    <option value="{{ course.id }}">{{ course.title }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="add-btn">Add to Course</button>
+                        </form>
+
+                        <form method="post" action="{% url 'set_student_level' student.id %}">
+                            {% csrf_token %}
+                            <label for="level_{{ student.id }}">Set Level:</label>
+                            <select name="level" id="level_{{ student.id }}">
+                                {% for value, label in ENGLISH_LEVELS %}
+                                    <option value="{{ value }}" {% if student.level == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="level-btn">Save Level</button>
+                        </form>
+
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

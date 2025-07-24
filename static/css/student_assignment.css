@@ -1,0 +1,82 @@
+.assignment-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #f9f9ff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.assignment-box {
+    background: #fff;
+    border-left: 6px solid #0051a2;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 81, 162, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.assignment-box:hover {
+    transform: translateY(-4px);
+}
+
+.assignment-box strong {
+    display: block;
+    font-size: 1.2rem;
+    color: #0051a2;
+    margin-bottom: 8px;
+}
+
+.assignment-box p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.assignment-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.assignment-box input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 0.95rem;
+}
+
+.assignment-box button {
+    padding: 10px 16px;
+    background-color: #0051a2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.assignment-box button:hover {
+    background-color: #003f7f;
+}
+
+.assignment-box p:last-of-type {
+    font-weight: bold;
+    color: green;
+}
+
+.assignment-container > p {
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+}

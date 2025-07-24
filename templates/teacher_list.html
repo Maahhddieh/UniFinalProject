@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+
+{% block title %}Our Teachers{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Our Teachers</h2>
+<div class="teacher-list-container">
+{% for teacher in teachers %}
+  <div class="teacher-card">
+      <img src="{{ teacher.profile_image.url }}" alt="Teacher Image">
+      <div class="teacher-name">{{ teacher.username }}</div>
+      <div class="teacher-rating">
+        ⭐ {{ teacher.received_ratings.all|average_rating }}/5
+      </div>
+
+      {% if request.user.is_authenticated and request.user.user_type == 'student' %}
+{#          {% if teacher in rated_teachers %}#}
+{#              <button disabled class="already-rated">Already Rated</button>#}
+          {% if teacher in related_teachers %}
+              <form method="post" action="{% url 'rate_teacher' teacher.id %}">
+                  {% csrf_token %}
+                  <select name="score">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                  </select>
+                  <button type="submit" class="active-btn">Rate</button>
+              </form>
+          {% else %}
+              <button disabled class="disabled-btn">Rate</button>
+          {% endif %}
+      {% endif %}
+  </div>
+{% endfor %}
+
+</div>
+{% endblock %}

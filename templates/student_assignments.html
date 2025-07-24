@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Assignments{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_assignment.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="assignment-container">
+    <h2>Assignments for {{ course.title }}</h2>
+
+    {% for assignment in assignments %}
+        <div class="assignment-box">
+            <strong>{{ assignment.title }}</strong> - {{ assignment.deadline|date:"Y-m-d H:i" }}
+            <p>{{ assignment.description }}</p>
+
+            {% if assignment.deadline > now %}
+                {% if assignment.id in submitted_assignment_ids %}
+                    <p>Already Submitted</p>
+                {% else %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
+                        <input type="file" name="file" required accept="application/pdf">
+                        <button type="submit">Submit</button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <p style="color: red;">Deadline Passed</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No current assignments.</p>
+    {% endfor %}
+</div>
+{% endblock %}

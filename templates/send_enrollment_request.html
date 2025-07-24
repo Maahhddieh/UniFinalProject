@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enrollment Request{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/enrollment_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="enroll-container">
+    <h2 class="form-title">Enroll in {{ course.title }}</h2>
+
+    <div class="course-details">
+        <p><strong>Teacher:</strong> {{ course.teacher.username }}</p>
+        <p><strong>Days:</strong> {{ course.class_days }}</p>
+        <p><strong>Time:</strong> {{ course.class_time }}</p>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <p><strong>Your Level:</strong> {{ student_level }}</p>
+    </div>
+
+    <form method="post" class="enroll-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-btn">Send Request</button>
+    </form>
+</div>
+{% endblock %}

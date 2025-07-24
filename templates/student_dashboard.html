@@ -1,17 +1,91 @@
 {% extends 'base.html' %}
+{% load filters %}
 {% load static %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}login{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-container">
-    <h2>Hi there! {{ user.username }}!</h2>
-    <p>Welcome to your account</p>
+    <div class="dashboard-container">
+        <h2 class="dashboard-title">Welcome, {{ request.user.username }}</h2>
+        <h3>Your Profile</h3>
+        <img src="{{ user.profile_image.url }}" alt="Profile Image" class="profile-picture"/>
 
-    <a href="{% url 'logout' %}" class="logout-btn">logout</a>
-</div>
+
+
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+{#    <a href="{% url 'edit_profile' %}">Edit Profile</a>#}
+        <div class="profile-actions">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+            <a href="{% url 'edit_profile' %}" class="edit-profile">Edit Profile</a>
+        </div>
+
+        <hr>
+
+        <div class="section-level-info">
+            <h3 class="section-title">Your Level</h3>
+            <div class="level-box">
+                {{ request.user.level|default:"Not set yet" }}
+            </div>
+        </div>
+
+        <div class="section-enrolled-courses">
+            <h3 class="section-title">Enrolled Courses</h3>
+            <div class="course-list">
+                {% for enroll in in_progress %}
+                    <li>
+                        <strong>{{ enroll.course.title }}</strong><br>
+                        Time: {{ enroll.course.class_days }} | {{ enroll.course.class_time }}<br>
+                        <a href="{{ enroll.course.join_link }}" class="join-button">Join Class</a><br>
+                        <a href="{% url 'student_course_assignments' enroll.course.id %}" class="assignments-button">
+                            Assignments
+                            {% if assignments_notifications and assignments_notifications|dict_key:enroll.course.id %}
+                               <span class="notification-dot"></span>
+                            {% endif %}
+                        </a>
+                        <p>Grade: Not graded yet</p>
+                    </li>
+                {% empty %}
+                    <li>No active courses.</li>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="section passed-courses">
+            <h3 class="section-title">Passed Courses</h3>
+            <div class="course-list">
+                {% for enroll in passed %}
+                    <div class="course-item passed">
+                        <div class="course-title">{{ enroll.course.title }}</div>
+                        <div class="grade pass">{{ enroll.grade }}</div>
+                        <div class="icon pass">✔️</div>
+                    </div>
+                {% empty %}
+                    <div class="course-empty">No passed courses yet.</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="section failed-courses">
+            <h3 class="section-title">Failed Courses</h3>
+            <div class="course-list">
+                {% for enroll in failed %}
+                    <div class="course-item failed">
+                        <div class="course-title">{{ enroll.course.title }}</div>
+                        <div class="grade fail">{{ enroll.grade }}</div>
+                        <div class="icon fail">❌</div>
+                    </div>
+                {% empty %}
+                    <div class="course-empty">No failed courses.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

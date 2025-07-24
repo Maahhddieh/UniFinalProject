@@ -1,0 +1,67 @@
+.courses-page {
+    font-family: "Segoe UI", sans-serif;
+    color: #333;
+    padding: 30px;
+    /*background-color: #f89a4c;;*/
+}
+
+.courses-page h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.courses-page ul {
+    list-style: none;
+    padding: 0;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.courses-page li {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-left: 5px solid #3498db;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.courses-page li:hover {
+    border-left-color: #2ecc71;
+    transform: translateY(-3px);
+}
+
+.courses-page h3 {
+    margin: 0 0 10px;
+    color: #2980b9;
+}
+
+.courses-page p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+.courses-page strong {
+    color: #555;
+}
+
+.enroll-btn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-btn:hover {
+    background-color: #218838;
+}
+

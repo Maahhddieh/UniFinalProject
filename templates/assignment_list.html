@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/assignment_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="assignment-container">
+    <h2>Assignments for {{ course.title }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Assignment</button>
+    </form>
+
+    <h3>Existing Assignments</h3>
+    <ul>
+        {% for assignment in assignments %}
+            <li>
+                <strong>{{ assignment.title }}</strong> - {{ assignment.deadline|date:"Y-m-d H:i" }}
+                <p>{{ assignment.description }}</p>
+                <a href="{% url 'assignment_submissions' assignment.id %}" class="submission-button">
+                View Submissions
+                </a>
+            </li>
+        {% empty %}
+            <p>No assignments yet.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

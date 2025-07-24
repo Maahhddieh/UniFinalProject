@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="edit-profile-container">
+    <h2>Edit Profile</h2>
+
+    {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="Profile Image" width="120" height="120" style="border-radius: 10px; margin-bottom: 10px;">
+    {% endif %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" value="{{ request.user.username }}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ request.user.email }}" required>
+
+        <label for="profile_picture">Change Profile Picture:</label>
+        <input type="file" name="profile_picture" accept="image/*">
+
+        <hr>
+
+        <p><strong>Only fill in the following fields if you want to change your password:</strong></p>
+
+        <label for="current_password">Current Password:</label>
+        <input type="password" name="current_password">
+
+        <label for="new_password">New Password:</label>
+        <input type="password" name="new_password">
+
+        <label for="confirm_password">Confirm New Password:</label>
+        <input type="password" name="confirm_password">
+
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
+    </form>
+</div>
+{% endblock %}

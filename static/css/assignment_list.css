@@ -1,0 +1,99 @@
+.assignment-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fefefe;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.assignment-container h2 {
+    text-align: center;
+    color: #003f7f;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.assignment-container form {
+    background-color: #f5f8ff;
+    padding: 20px;
+    border: 1px solid #d0dff6;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.assignment-container form input[type="text"],
+.assignment-container form textarea,
+.assignment-container form input[type="datetime-local"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccd8e4;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.assignment-container button[type="submit"] {
+    background-color: #0051a2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 15px;
+}
+
+.assignment-container button[type="submit"]:hover {
+    background-color: #003f7f;
+}
+
+.assignment-container h3 {
+    color: #444;
+    margin-top: 40px;
+    font-size: 22px;
+    border-bottom: 2px solid #dce4f0;
+    padding-bottom: 8px;
+}
+
+.assignment-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.assignment-container li {
+    background-color: #f9f9f9;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-left: 6px solid #0051a2;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.assignment-container li:hover {
+    transform: translateY(-3px);
+    background-color: #f1f8ff;
+}
+
+.assignment-container li strong {
+    display: block;
+    color: #003f7f;
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.assignment-container li p {
+    color: #555;
+    margin: 0;
+}
+
+.submission-button {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-top: 8px;
+}

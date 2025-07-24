@@ -1,17 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}dashboard{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/teacher_dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
-    <h2>Hi there teacher! {{ user.username }}!</h2>
-    <p>Welcome to your account</p>
+    <h2>Welcome, {{ user.username }}</h2>
 
-    <a href="{% url 'logout' %}" class="logout-btn">logout</a>
+    <h3>Your Profile</h3>
+    <img src="{{ user.profile_image.url }}" alt="Profile Image" class="profile-picture"/>
+
+
+
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+{#    <a href="{% url 'edit_profile' %}">Edit Profile</a>#}
+    <div class="profile-actions">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+        <a href="{% url 'edit_profile' %}" class="edit-profile">Edit Profile</a>
+    </div>
+
+    <hr>
+
+    <h3>Your Classes</h3>
+    <ul>
+        {% for course in courses %}
+            <li>
+                <strong>{{ course.title }}</strong> ({{ course.required_level }})<br>
+                {{ course.description }}<br>
+                <em>{{ course.class_days }} - {{ course.class_time }}</em><br>
+                <a href="{% url 'course_detail' course.id %}" class="btn-course-details">Course Details</a>
+            </li>
+        {% empty %}
+            <li>No classes yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'teacher_requests' %}" class="requests-btn">
+    Class Requests
+    {% if unseen_count > 0 %}
+        <span class="unseen-dot"></span>
+    {% endif %}
+    </a>
+
+    <hr>
+
+    <h3>Search and Add Students</h3>
+    <a href="{% url 'search_students' %}" class="btn-search-students">Search Students</a>
+
+    <hr>
+
+    <h3>Add New Class</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Class</button>
+    </form>
 </div>
 {% endblock %}
