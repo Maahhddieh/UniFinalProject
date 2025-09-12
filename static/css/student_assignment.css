@@ -71,7 +71,7 @@
 }
 
 .assignment-box p:last-of-type {
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: green;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .submission-feedback {
-    background-color: #f5f7ff;
+    background-color: #d4edda;
     border: 1px solid #d1ddff;
     padding: 12px;
     border-radius: 8px;

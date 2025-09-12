@@ -1,8 +1,9 @@
+from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
-from django.conf import settings
+from django.conf import settings, Settings
 
 ENGLISH_LEVELS = [
     ('Beginner', 'Beginner'),
@@ -35,13 +36,14 @@ User = get_user_model()
 
 
 class PlacementTestReservation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservations_made')
     full_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     level = models.CharField(max_length=20, choices=ENGLISH_LEVELS)
     date = models.DateField()
     time = models.TimeField()
-
+    assigned_teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reservations_assigned')
+    is_seen = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.full_name} - {self.date} {self.time}"
 
@@ -70,8 +72,6 @@ class Course(models.Model):
         ('8-12 am', '8-12 am'),
     ]
 
-
-
     title = models.CharField(max_length=100)
     required_level = models.CharField(max_length=20, choices=LEVEL_CHOICES)
     description = models.TextField()
@@ -80,7 +80,7 @@ class Course(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'user_type': 'teacher'})
     students = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='enrolled_courses')
     join_link = models.URLField(default="#")
-
+    start_date = models.DateField(default=timezone.now)
     def __str__(self):
         return self.title
 
@@ -143,3 +143,69 @@ class AssignmentSubmission(models.Model):
 
     class Meta:
         unique_together = ('assignment', 'student')
+
+
+CONVERSATION_TOPICS = [
+    ('Reading Skills', 'Reading Skills'),
+    ('English Grammar', 'English Grammar'),
+    ('Speaking', 'Speaking'),
+    ('Vocabulary and Idiom', 'Vocabulary and Idiom'),
+    ('Daily Life', 'Daily Life'),
+    ('Fun', 'Fun'),
+    ('Social Topics', 'Social Topics'),
+    ('Movies', 'Movies'),
+    ('Books', 'Books'),
+    ('Music', 'Music'),
+]
+
+
+
+
+class Conversation(models.Model):
+    topic = models.CharField(max_length=100, choices=CONVERSATION_TOPICS)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='conversations')
+    title = models.CharField(max_length=200)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    participants = models.ManyToManyField(User, related_name='participated_conversations', blank=True)
+
+    def __str__(self):
+        return f"{self.title} - by {self.user.username}"
+
+
+class Comment(models.Model):
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='liked_comments', blank=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.conversation.title}"
+
+    def like_count(self):
+        return self.likes.count()
+
+    def is_liked_by(self, user):
+        return self.likes.filter(id=user.id).exists()
+
+
+
+class EducationalPost(models.Model):
+    teacher = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='educational_posts'
+    )
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='educational_posts/', blank=True, null=True)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return f"{self.title} - {self.teacher.username}"

@@ -172,5 +172,37 @@ input, select, textarea {
     border: 8px solid rgba(255, 184, 35, 0.9);
 }
 
+.educational-posts-section {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-view-posts,
+.btn-create-post {
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white !important;
+}
+
+.btn-view-posts {
+    background: #17a2b8;
+}
+
+.btn-create-post {
+    background: #28a745;
+}
+
+.btn-view-posts:hover {
+    background: #138496;
+}
+
+.btn-create-post:hover {
+    background: #218838;
+}
+
+
+
 
 

@@ -5,19 +5,19 @@
     </div>
     <nav class="navbar">
         <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="nav-list"><a href="{% url 'home' %}" class="nav-item">Home</a></li>
             {% if user.is_authenticated %}
                 {% if user.user_type == 'teacher' %}
-                    <li><a href="{% url 'teacher_dashboard' %}">Account</a></li>
+                    <li><a href="{% url 'teacher_dashboard' %}" class="nav-item">Account</a></li>
                 {% else %}
-                    <li><a href="{% url 'student_dashboard' %}">Account</a></li>
+                    <li><a href="{% url 'student_dashboard' %}" class="nav-item">Account</a></li>
                 {% endif %}
             {% else %}
-                <li><a href="{% url 'login' %}">login/register</a></li>
+                <li><a href="{% url 'login' %}" class="nav-item">login/register</a></li>
             {% endif %}
-            <li><a href="{% url 'courses_list' %}">Courses</a></li>
-            <li><a href="#">Contact us</a></li>
-            <li><a href="#">About us</a></li>
+            <li class="nav-list"><a href="{% url 'courses_list' %}" class="nav-item">Courses</a></li>
+            <li class="nav-list"><a href="{% url 'contact' %}" class="nav-item">Contact us</a></li>
+            <li class="nav-list"><a href="{% url 'about' %}" class="nav-item">About us</a></li>
         </ul>
     </nav>
 </header>

@@ -57,7 +57,10 @@
             <p>No failed courses.</p>
         {% endif %}
     </div>
-
-    <a href="{% url 'teacher_requests' %}" class="back-btn">← Back to Requests</a>
+    {% if request.GET.from == "search_students" %}
+        <a href="{% url 'search_students' %}" class="back-btn">← Back</a>
+    {% else %}
+        <a href="{% url 'teacher_requests' %}" class="back-btn">← Back</a>
+    {% endif %}
 </div>
 {% endblock %}

@@ -7,15 +7,58 @@
 {% endblock %}
 
 {% block content %}
-<div class="main-content">
     <div class="image-container">
-        <img src="../static/images/homepic.png" alt="Main Photo">
+        <a href="{% url 'placement_test' %}">
+            <img class="home-pic" src="../static/images/home.JPG" alt="Main Photo">
+        </a>
     </div>
-    <div class="side-box">
-        <p>Press the Button below to start learning English!</p>
-        <a href="{% url 'placement_test' %}" class="reserve-btn">Reserve Time now!</a>
+    <div class="home-flex-section">
+        <div class="home-box conversations-box">
+            <h2>🔥 Popular Conversations</h2>
+            {% for convo in top_conversations %}
+                <div class="convo-item">
+                 <img src="{{ convo.user.profile_image.url }}"
+                        alt="{{ convo.user.username }}"
+                        class="convo-user-pic">
+
+                    <div class="convo-info">
+                        <h4>
+                            <a href="{% url 'conversation_detail' convo.id %}">{{ convo.title }}</a>
+                        </h4>
+                        <p class="meta">
+            💬               {{ convo.comment_count }} comments | By {{ convo.user.username }}
+                        </p>
+                    </div>
+            </div>
+            {% empty %}
+                <p>No conversations yet.</p>
+            {% endfor %}
+            <div class="see-more-container">
+                <a href="{% url 'conversation_list' %}" class="see-more-btn">See More →</a>
+            </div>
+        </div>
+
+        <div class="home-box posts-box">
+            <h2>📚 Latest Educational Posts</h2>
+            {% for post in latest_posts %}
+                <div class="post-preview">
+                    <div class="post-info">
+                        <h4>{{ post.title }}</h4>
+                        <p>{{ post.description|truncatewords:15 }}</p>
+                        <small>By {{ post.teacher.username }} | {{ post.created|date:"Y-m-d" }}</small>
+                    </div>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No posts yet.</p>
+            {% endfor %}
+         <div class="see-more-container">
+            <a href="{% url 'educational_post_list' %}" class="see-more-btn">See More →</a>
+        </div>
+        </div>
     </div>
-</div>
 
 <div class="teacher-preview-section">
     <h2>Meet Some of Our Teachers</h2>

@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="courses-page">
-<h2>All Courses</h2>
+<h2 style="color: #cccccc">All Courses</h2>
 <ul>
     {% for course in courses %}
     <li>
@@ -19,8 +19,14 @@
         <p><strong>Description:</strong> {{ course.description }}</p>
         <p><strong>Teacher's Name:</strong> {{ course.teacher.username }}</p>
         {% if request.user.user_type == "student" %}
-            <a href="{% url 'send_enrollment_request' course.id %}" class="enroll-btn">Enroll</a>
-        {% endif %}
+    {% if course.registration_open %}
+        <a href="{% url 'send_enrollment_request' course.id %}" class="enroll-btn">Register</a>
+        <p style="color: #155724">{{ course.remaining_days }} days left to register</p>
+    {% else %}
+        <button class="enroll-btn" disabled style="background-color: #7f8c8d">Register</button>
+        <p style="color: #cc0000">Registration time has ended!</p>
+    {% endif %}
+{% endif %}
     </li>
     {% empty %}
     <li>No courses available.</li>

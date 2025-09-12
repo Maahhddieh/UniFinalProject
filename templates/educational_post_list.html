@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Educational Posts{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/educational_posts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="posts-list-container">
+    <h2>📚 Educational Posts</h2>
+
+    <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
+    {% if request.user.user_type == "teacher" %}
+        <a href="{% url 'educational_post_create' %}" class="create-button">Create post</a>
+        <form method="get" style="display:inline;">
+        <label>
+            <input type="checkbox" name="my_posts" value="1" {% if request.GET.my_posts %}checked{% endif %}>
+            My posts
+        </label>
+        <button type="submit" class="filter-btn">Filter</button>
+    </form>
+    {% endif %}
+    {% if posts %}
+        <div class="posts-grid">
+            {% for post in posts %}
+                <div class="post-card">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <div class="post-card-body">
+                            <h3>{{ post.title }}</h3>
+                            <p>{{ post.description|truncatewords:20 }}</p>
+                            <small>
+                                By {{ post.teacher.username }} | {{ post.created|date:"Y-m-d" }}
+                            </small>
+                        </div>
+
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-thumbnail">
+                        {% endif %}
+                    </a>
+
+                    {% if user == post.teacher %}
+                        <div class="post-actions">
+                            <a href="{% url 'educational_post_update' post.id %}" class="btn btn-edit">✏️ Edit</a>
+                            <a href="{% url 'educational_post_delete' post.id %}" class="btn btn-delete"
+                               onclick="return confirm('Are you sure you want to delete this post?');">🗑 Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-posts">No posts yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

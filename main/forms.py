@@ -1,5 +1,5 @@
 from django import forms
-from .models import PlacementTestReservation, EnrollmentRequest, Assignment
+from .models import PlacementTestReservation, EnrollmentRequest, Assignment, Conversation, Comment, EducationalPost
 import datetime
 from .models import Course
 from django.contrib.auth import get_user_model
@@ -14,9 +14,22 @@ ENGLISH_LEVELS = [
     ('Advanced', 'Advanced'),
 ]
 
+CONVERSATION_TOPICS = [
+    ('Reading Skills', 'Reading Skills'),
+    ('English Grammar', 'English Grammar'),
+    ('Speaking', 'Speaking'),
+    ('Vocabulary and Idiom', 'Vocabulary and Idiom'),
+    ('Daily Life', 'Daily Life'),
+    ('Fun', 'Fun'),
+    ('Social Topics', 'Social Topics'),
+    ('Movies', 'Movies'),
+    ('Books', 'Books'),
+    ('Music', 'Music'),
+]
+
 TIME_CHOICES = []
-start = datetime.time(9, 0)
-end = datetime.time(18, 0)
+start = datetime.time(19, 0)
+end = datetime.time(21, 0)
 current = datetime.datetime.combine(datetime.date.today(), start)
 
 while current.time() <= end:
@@ -65,7 +78,10 @@ class PlacementTestReservationForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'required_level', 'description', 'class_days', 'class_time']
+        fields = ['title', 'required_level', 'description', 'class_days', 'class_time', 'start_date']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 class StudentSearchForm(forms.Form):
@@ -106,8 +122,6 @@ class EnrollmentRequestForm(forms.ModelForm):
         }
 
 
-
-
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
@@ -115,3 +129,24 @@ class AssignmentForm(forms.ModelForm):
         widgets = {
             'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
+
+
+class ConversationForm(forms.ModelForm):
+    class Meta:
+        model = Conversation
+        fields = ['topic', 'title', 'body']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']
+        widgets = {
+            'body': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your comment...'})
+        }
+
+
+class EducationalPostForm(forms.ModelForm):
+    class Meta:
+        model = EducationalPost
+        fields = ['title', 'image', 'description']

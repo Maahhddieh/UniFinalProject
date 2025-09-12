@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/conversation_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="layout layout--3">
+  <div class="container">
+
+    <div class="topics">
+  <div class="box">
+    <h3>Topics</h3>
+    <ul class="topic-list">
+      <li class="{% if not selected_topic %}active{% endif %}">
+        <a href="{% url 'conversation_list' %}">All</a>
+      </li>
+      {% for topic, label in topics %}
+        <li class="{% if selected_topic == topic %}active{% endif %}">
+  <a href="?topic={{ topic }}">
+    {{ label }} ({{ topic_counts|dict_get:topic|default:0 }})
+  </a>
+</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+<div class="conversations">
+  <div class="box">
+    <div class="box__header" style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Conversations</h2>
+      <div style="display:flex; gap:1rem; align-items:center;">
+        <a class="btn" href="{% url 'conversation_create' %}">Start a Conversation</a>
+
+        {% if request.user.is_authenticated %}
+        <form method="get" style="margin:0;">
+          <label>
+            <input type="checkbox" name="my_topics" value="1"
+                   {% if request.GET.my_topics %}checked{% endif %}>
+            My topics
+          </label>
+          <button type="submit" class="filter-btn">Filter</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if conversations %}
+    <ul class="conversation-list">
+      {% for conversation in conversations %}
+      <li class="conversation-item">
+        <a href="{% url 'conversation_detail' conversation.id %}">
+          <h4>{{ conversation.title }}</h4>
+          <p>
+            <img src="{{ conversation.user.profile_image.url }}"
+                 alt="{{ conversation.user.username }} profile"
+                 style="width:28px; height:28px; border-radius:50%; object-fit:cover; margin-right:6px;">
+            By <strong>{{ conversation.user.username }}</strong>
+             <em>{{ conversation.topic.name }}</em>
+          </p>
+          <span>{{ conversation.created|date:"M d, Y" }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No conversations yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+    <div class="top-users">
+      <div class="box">
+        <h3>Top Contributors</h3>
+        <ul class="user-list">
+          {% for user in top_users %}
+          <li>
+            <span>{{ user.username }}</span>
+            <small>{{ user.conversation_count }} conversations</small>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</main>
+{% endblock %}

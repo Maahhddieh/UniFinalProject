@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth import logout
 from django.contrib import messages
@@ -5,26 +7,39 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 import re
+
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from django.urls import reverse
-from .forms import PlacementTestReservationForm, SetStudentLevelForm, EnrollmentRequestForm, AssignmentForm
-from django.http import JsonResponse, HttpResponseForbidden
+from .forms import PlacementTestReservationForm, EnrollmentRequestForm, AssignmentForm, CommentForm, ConversationForm, \
+    EducationalPostForm
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponse
 from .models import PlacementTestReservation, ENGLISH_LEVELS, EnrollmentRequest, CustomUser, Rating, Assignment, \
-    AssignmentSubmission
+    AssignmentSubmission, Comment, Conversation, EducationalPost
 from .models import Course, Enrollment
 from .forms import CourseForm
 from django.shortcuts import get_object_or_404
 from .forms import StudentSearchForm, AddStudentToCourseForm
+
 
 User = get_user_model()
 
 
 def home(request):
     top_teachers = User.objects.filter(user_type='teacher')[:4]
-    return render(request, 'home.html', {'top_teachers': top_teachers})
+    top_conversations = Conversation.objects.annotate(
+        comment_count=Count("comments")
+    ).order_by("-comment_count")[:4]
+    latest_posts = EducationalPost.objects.all()[:4]
+    context = {
+        "top_conversations": top_conversations,
+        "latest_posts": latest_posts,
+        "top_teachers": top_teachers,
+    }
+    return render(request, 'home.html', context)
 
 
 def login_view(request):
@@ -40,9 +55,9 @@ def login_view(request):
         if user is not None:
             login(request, user)
             if user.user_type == 'teacher':
-                return redirect('teacher_dashboard')
+                return redirect('home')
             else:
-                return redirect('student_dashboard')
+                return redirect('home')
         else:
             messages.error(request, 'Wrong username or password!')
 
@@ -95,8 +110,6 @@ def signup(request):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.user_type = user_type
         user.save()
-
-        messages.success(request, 'Successful registration! You can login now.')
         return redirect('login')
 
     return render(request, 'signup.html')
@@ -147,11 +160,13 @@ def logout_view(request):
 
 @login_required
 def placement_test(request):
+    teacher = User.objects.get(username='Mahdieh Arabi')
     if request.method == 'POST':
         form = PlacementTestReservationForm(request.POST)
         if form.is_valid():
             reservation = form.save(commit=False)
             reservation.user = request.user
+            reservation.assigned_teacher = teacher
             reservation.save()
             return redirect('reservation_success')
     else:
@@ -177,9 +192,11 @@ def get_reserved_times(request):
 def teacher_dashboard(request):
     if request.user.user_type != 'teacher':
         return redirect('home')
+    t = User.objects.get(username='Mahdieh Arabi')
 
     courses = Course.objects.filter(teacher=request.user)
     unseen_count = EnrollmentRequest.objects.filter(course__in=courses, is_seen=False).count()
+    unseen_level_test = PlacementTestReservation.objects.filter(assigned_teacher=t, is_seen=False).count()
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
@@ -193,7 +210,8 @@ def teacher_dashboard(request):
     return render(request, 'teacher_dashboard.html', {
         'form': form,
         'courses': courses,
-        'unseen_count': unseen_count
+        'unseen_count': unseen_count,
+        'unseen_level_test': unseen_level_test
     })
 
 
@@ -251,10 +269,17 @@ def set_student_level(request, student_id):
 @login_required
 def courses_list(request):
     user = request.user
-    if user.user_type == 'student' and User.level:
-        courses = Course.objects.filter(required_level=user.level)
-    else:
-        courses = Course.objects.all()
+    today = timezone.now().date()
+
+    # if user.user_type == 'student' and hasattr(user, 'level'):
+    #     courses = Course.objects.filter(required_level=user.level)
+    # else:
+    courses = Course.objects.all()
+
+    for course in courses:
+        registration_deadline = course.start_date - timedelta(days=2)
+        course.registration_open = today <= registration_deadline
+        course.remaining_days = (registration_deadline - today).days if course.registration_open else 0
 
     return render(request, 'courses_list.html', {'courses': courses})
 
@@ -348,7 +373,6 @@ def view_requests(request):
 def delete_course(request, course_id):
     course = get_object_or_404(Course, id=course_id, teacher=request.user)
     course.delete()
-    messages.success(request, "Course deleted successfully.")
     return redirect('teacher_dashboard')
 
 
@@ -370,6 +394,7 @@ def set_course_link(request, course_id):
 @login_required
 def student_profile_detail(request, student_id):
     student = get_object_or_404(User, pk=student_id, user_type='student')
+    source = request.GET.get("from")
 
     passed_enrollments = Enrollment.objects.filter(student=student, grade__gte=60)
     failed_enrollments = Enrollment.objects.filter(student=student, grade__lt=60)
@@ -380,6 +405,7 @@ def student_profile_detail(request, student_id):
         'passed_enrollments': passed_enrollments,
         'failed_enrollments': failed_enrollments,
         'current_enrollments': current_enrollments,
+        'source': source
     }
     return render(request, 'see_student_profile.html', context)
 
@@ -441,11 +467,12 @@ def edit_profile(request):
 
         user.save()
         messages.success(request, 'Profile is updated!')
-        return redirect('teacher_dashboard')
+        if user.user_type == 'teacher':
+            return redirect('teacher_dashboard')
+        else:
+            return redirect('student_dashboard')
 
     return render(request, 'edit_profile.html')
-
-
 
 
 def teacher_list(request):
@@ -470,9 +497,6 @@ def teacher_list(request):
         'related_teachers': related_teachers,
     }
     return render(request, 'teacher_list.html', context)
-
-
-
 
 
 @login_required
@@ -576,7 +600,6 @@ def student_assignments_view(request, course_id):
     })
 
 
-
 @login_required
 def assignment_submissions_view(request, assignment_id):
     assignment = get_object_or_404(Assignment, id=assignment_id)
@@ -599,3 +622,201 @@ def assignment_submissions_view(request, assignment_id):
         'assignment': assignment,
         'submissions': submissions
     })
+
+
+CONVERSATION_TOPICS = [
+    ('Reading Skills', 'Reading Skills'),
+    ('English Grammar', 'English Grammar'),
+    ('Speaking', 'Speaking'),
+    ('Vocabulary and Idiom', 'Vocabulary and Idiom'),
+    ('Daily Life', 'Daily Life'),
+    ('Fun', 'Fun'),
+    ('Social Topics', 'Social Topics'),
+    ('Movies', 'Movies'),
+    ('Books', 'Books'),
+    ('Music', 'Music'),
+]
+
+
+def conversation_list(request):
+    selected_topic = request.GET.get('topic')
+
+    if selected_topic:
+        conversations = Conversation.objects.filter(topic=selected_topic).select_related('user')
+    else:
+        conversations = Conversation.objects.all().select_related('user')
+
+    if request.user.is_authenticated and request.GET.get('my_topics') == '1':
+        conversations = conversations.filter(user=request.user)
+
+    topic_counts = {
+        topic[0]: Conversation.objects.filter(topic=topic[0]).count()
+        for topic in CONVERSATION_TOPICS
+    }
+
+    top_users = User.objects.annotate(conversation_count=Count('conversations')).order_by('-conversation_count')[:5]
+
+    return render(request, 'conversation_list.html', {
+        'conversations': conversations,
+        'selected_topic': selected_topic,
+        'topic_counts': topic_counts,
+        'topics': CONVERSATION_TOPICS,
+        'top_users': top_users,
+    })
+
+
+def conversation_detail(request, pk):
+    conversation = get_object_or_404(Conversation, pk=pk)
+    comments = conversation.comments.all().order_by('created')
+    form = CommentForm()
+
+    return render(request, 'conversation_detail.html', {
+        'conversation': conversation,
+        'comments': comments,
+        'form': form
+    })
+
+
+@login_required
+def conversation_create(request):
+    if request.method == 'POST':
+        form = ConversationForm(request.POST)
+        if form.is_valid():
+            conversation = form.save(commit=False)
+            conversation.user = request.user
+            conversation.save()
+            form.save_m2m()
+            conversation.participants.add(request.user)
+            return redirect('conversation_detail', pk=conversation.pk)
+    else:
+        form = ConversationForm()
+
+    return render(request, 'conversation_form.html', {'form': form})
+
+
+@login_required
+def comment_create(request, pk):
+    conversation = get_object_or_404(Conversation, pk=pk)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.conversation = conversation
+            comment.user = request.user
+            comment.save()
+            conversation.participants.add(request.user)
+            return redirect('conversation_detail', pk=conversation.pk)
+    return redirect('conversation_detail', pk=conversation.pk)
+
+
+@login_required
+def like_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    user = request.user
+
+    if comment.is_liked_by(user):
+        comment.likes.remove(user)
+    else:
+        comment.likes.add(user)
+
+    return redirect('conversation_detail', pk=comment.conversation.pk)
+
+
+def educational_post_list(request):
+        posts = EducationalPost.objects.all()
+
+        if request.user.is_authenticated and request.user.user_type == "teacher" and request.GET.get('my_posts') == '1':
+            posts = posts.filter(teacher=request.user)
+
+        return render(request, 'educational_post_list.html', {'posts': posts})
+
+@login_required
+def educational_post_create(request):
+    if not request.user.is_teacher:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = EducationalPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.teacher = request.user
+            post.save()
+            return redirect('educational_post_list')
+    else:
+        form = EducationalPostForm()
+
+    return render(request, 'educational_post_form.html', {'form': form})
+
+
+@login_required
+def educational_post_update(request, pk):
+    post = get_object_or_404(EducationalPost, pk=pk, teacher=request.user)
+
+    if request.method == 'POST':
+        form = EducationalPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('educational_post_list')
+    else:
+        form = EducationalPostForm(instance=post)
+
+    return render(request, 'educational_post_form.html', {'form': form, 'post': post})
+
+
+@login_required
+def educational_post_delete(request, pk):
+    post = get_object_or_404(EducationalPost, pk=pk, teacher=request.user)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('educational_post_list')
+
+    return render(request, 'educational_post_confirm_delete.html', {'post': post})
+
+
+def post_detail(request, pk):
+    post = get_object_or_404(EducationalPost, pk=pk)
+    return render(request, 'post_detail.html', {'post': post})
+
+
+def level_requests(request):
+    teacher = User.objects.get(username='Mahdieh Arabi')
+    reservations = PlacementTestReservation.objects.filter(assigned_teacher=teacher).order_by('-date')
+    reservations.filter(is_seen=False).update(is_seen=True)
+    return render(request, 'level_requests.html', {'reservations': reservations})
+
+
+@login_required
+def conversation_edit(request, pk):
+    conversation = get_object_or_404(Conversation, pk=pk)
+
+    if request.user != conversation.user:
+        return redirect('conversation_detail', pk=pk)
+
+    if request.method == 'POST':
+        form = ConversationForm(request.POST, instance=conversation)
+        if form.is_valid():
+            form.save()
+            return redirect('conversation_detail', pk=conversation.pk)
+    else:
+        form = ConversationForm(instance=conversation)
+
+    return render(request, 'conversation_form.html', {'form': form, 'conversation': conversation})
+
+
+@login_required()
+def conversation_delete(request, pk):
+    conversation = get_object_or_404(Conversation, pk=pk)
+
+    if request.user == conversation.user:
+        conversation.delete()
+
+    return redirect('conversation_list')
+
+
+def contact(request):
+    return render(request, "contact_us.html")
+
+def about(request):
+    return render(request, "about.html")

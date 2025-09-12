@@ -1,0 +1,144 @@
+.layout--2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem;
+  /*background-color: #F9F3EF;*/
+  min-height: 100vh;
+}
+
+.box {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 750px;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border-top: 6px solid #FFB823;
+}
+
+.box h2, .box h3 {
+  font-size: 1.5rem;
+  color: #1B3C53;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.box p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.7;
+}
+
+.box hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+}
+
+.conversation-item {
+  background-color: #FAFAFA;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-left: 5px solid #FFB823;
+}
+
+.conversation-item p {
+  margin: 0.3rem 0;
+}
+
+.conversation-item small {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.btn-small {
+  font-size: 1rem;
+  color: #FF4C60;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-small:hover {
+  transform: scale(1.1);
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.6rem;
+  background-color: #fdfdfd;
+  transition: border 0.3s ease;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.comment-form textarea:focus {
+  border-color: #FFB823;
+  outline: none;
+}
+
+.comment-form .btn {
+  background-color: #FFB823;
+  color: #1B3C53;
+  font-weight: bold;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.comment-form .btn:hover {
+  background-color: #e5a700;
+}
+
+
+.box p.empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+a.btn-edit,
+a.btn-delete, a.btn-convs {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+a.btn-edit {
+    background-color: #3498db;
+    color: white;
+}
+a.btn-edit:hover {
+    background-color: #2980b9;
+}
+
+a.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+a.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+a.btn-convs {
+    background-color: #f59e0b;
+    color: white;
+}
+a.btn-convs:hover {
+    background-color: #e67e22;
+}

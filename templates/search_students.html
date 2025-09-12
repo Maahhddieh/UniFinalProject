@@ -34,7 +34,9 @@
                         <em>Current Level:</em> {{ student.get_level_display|default:"Not set" }}
                     </div>
 
-                    <a href="{% url 'student_profile_detail' student.id %}" class="view-profile-btn">View Profile</a>
+                    <a href="{% url 'student_profile_detail' student.id %}?from=search_students" class="view-profile-btn">
+    View Profile
+</a>
 
                     <div class="student-actions">
                         <form method="post" action="{% url 'add_student_to_course' %}">

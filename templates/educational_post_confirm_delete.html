@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Post{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/educational_posts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirm-container">
+    <h2>Delete Post</h2>
+    <p>Are you sure you want to delete <strong>{{ post.title }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Yes, Delete</button>
+        <a href="{% url 'educational_post_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

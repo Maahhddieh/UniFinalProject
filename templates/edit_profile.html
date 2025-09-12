@@ -50,7 +50,12 @@
         <input type="password" name="confirm_password">
 
         <button type="submit">Save Changes</button>
-        <a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
+        {% if user.is_teacher %}
+    <a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
+{% elif user.is_student %}
+    <a href="{% url 'student_dashboard' %}" class="back-button">← Back to Dashboard</a>
+{% endif %}
+
     </form>
 </div>
 {% endblock %}

@@ -21,7 +21,7 @@
 
     <form method="post">
         {% csrf_token %}
-        <label for="username">Username": </label>
+        <label for="username">Username: </label>
         <input type="text" id="username" name="username" required>
 
         <label for="password">Password: </label>
@@ -29,7 +29,7 @@
 
         <button type="submit">Login</button>
 
-        <p class="register-link">dont have an account? <a href="{% url 'signup' %}">Register now</a></p>
+        <p class="register-link">don't have an account? <a href="{% url 'signup' %}">Register now</a></p>
     </form>
 </div>
 {% endblock %}

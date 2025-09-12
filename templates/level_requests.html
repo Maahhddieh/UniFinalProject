@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Level Test Requests{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/level_requests.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Level Test Requests</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Level</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in reservations %}
+            <tr>
+                <td data-label="Full Name">{{ res.full_name }}</td>
+                <td data-label="Phone">{{ res.phone }}</td>
+                <td data-label="Level">{{ res.level }}</td>
+                <td data-label="Date">{{ res.date }}</td>
+                <td data-label="Time">{{ res.time }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No reservations yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

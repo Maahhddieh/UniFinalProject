@@ -49,6 +49,12 @@
         <span class="unseen-dot"></span>
     {% endif %}
     </a>
+    <a href="{% url 'level_requests' %}" class="requests-btn">
+        Level Test Requests
+        {% if unseen_level_test > 0 %}
+            <span class="unseen-dot"></span>
+        {% endif %}
+    </a>
 
     <hr>
 

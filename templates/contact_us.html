@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <h2>📞 Contact Us</h2>
+    <p class="subtitle">We’re here to help. Reach us through the following channels:</p>
+
+    <div class="contact-info-box">
+        <ul>
+            <li>📍 <strong>Address:</strong> 123 Language St, Education City</li>
+            <li>📞 <strong>Phone:</strong> +98 991 345 2497</li>
+            <li>✉️ <strong>Email:</strong> support@moonacademy.com</li>
+            <li>🌐 <strong>Website:</strong> www.moonacademy.com</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
