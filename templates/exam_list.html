@@ -32,7 +32,7 @@
                     {% endif %}
 
                     <div class="exam-actions">
-                        <a href="{% url 'exam_submissions' exam.id %}" class="btn-view">🔎 View submissions</a>
+                        <a href="{% url 'exam_submissions_view' exam.id %}" class="btn-view">🔎 View submissions</a>
 
                         {% if user == exam.course.teacher %}
                             <a href="{% url 'exam_update' exam.id %}" class="btn-edit">✏️ Edit</a>
