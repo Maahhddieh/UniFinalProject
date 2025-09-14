@@ -267,4 +267,15 @@
     transform: translateY(-2px);
 }
 
+.post-titles a {
+    color: #000;
+    text-decoration: none;
+}
+
+.post-titles a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+
 

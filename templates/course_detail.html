@@ -19,6 +19,7 @@
     <button type="submit">Save Link</button>
 </form>
 <a href="{% url 'assignment_list_create' course.id %}" class="assignment-btn">Assignments</a>
+<a href="{% url 'exam_list' course.id %}" class="exam-btn">Exams</a>
 <a href="{% url 'delete_course' course.id %}"
                 onclick="return confirm('Are you sure you want to remove this course?');"
                 class="remove-course">Remove Course</a>
@@ -56,6 +57,6 @@
     <p>No students enrolled in this course.</p>
 {% endif %}
 
-<a href="{% url 'teacher_dashboard' %}">Back to Dashboard</a>
+<a href="{% url 'teacher_dashboard' %}" class="back-button">← Back to Dashboard</a>
 </div>
 {% endblock %}

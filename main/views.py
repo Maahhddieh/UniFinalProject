@@ -18,7 +18,7 @@ from .forms import PlacementTestReservationForm, EnrollmentRequestForm, Assignme
     EducationalPostForm
 from django.http import JsonResponse, HttpResponseForbidden, HttpResponse
 from .models import PlacementTestReservation, ENGLISH_LEVELS, EnrollmentRequest, CustomUser, Rating, Assignment, \
-    AssignmentSubmission, Comment, Conversation, EducationalPost
+    AssignmentSubmission, Comment, Conversation, EducationalPost, Exam, ExamSubmission
 from .models import Course, Enrollment
 from .forms import CourseForm
 from django.shortcuts import get_object_or_404
@@ -466,7 +466,6 @@ def edit_profile(request):
             update_session_auth_hash(request, user)
 
         user.save()
-        messages.success(request, 'Profile is updated!')
         if user.user_type == 'teacher':
             return redirect('teacher_dashboard')
         else:
@@ -771,8 +770,7 @@ def educational_post_delete(request, pk):
     if request.method == 'POST':
         post.delete()
         return redirect('educational_post_list')
-
-    return render(request, 'educational_post_confirm_delete.html', {'post': post})
+    return redirect('educational_post_list')
 
 
 def post_detail(request, pk):
@@ -820,3 +818,152 @@ def contact(request):
 
 def about(request):
     return render(request, "about.html")
+
+
+def exam_list(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    exams = Exam.objects.filter(course=course)
+    return render(request, 'exam_list.html', {
+        'course': course,
+        'exams': exams
+    })
+
+@login_required
+def add_exam(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    if request.user != course.teacher:
+        return redirect("exam_list", course_id=course.id)
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        deadline = request.POST.get("deadline")
+        file = request.FILES.get("file")
+
+        Exam.objects.create(
+            course=course,
+            title=title,
+            description=description,
+            deadline=deadline,
+            file=file
+        )
+        return redirect("exam_list", course_id=course.id)
+
+    return render(request, "add_exam.html", {"course": course})
+
+
+# @login_required
+# def submit_exam(request, exam_id):
+#     exam = get_object_or_404(Exam, id=exam_id)
+#     if request.method == "POST":
+#         file = request.FILES.get("file")
+#         ExamSubmission.objects.create(
+#             exam=exam,
+#             student=request.user,
+#             file=file
+#         )
+#         return redirect("exam_list", course_id=exam.course.id)
+#     return render(request, "submit_exam.html", {"exam": exam})
+
+
+@login_required
+def grade_exams(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    submissions = exam.submissions.all()
+    if request.method == "POST":
+        for sub in submissions:
+            grade = request.POST.get(f"grade_{sub.id}")
+            if grade:
+                sub.grade = grade
+                sub.save()
+        return redirect("grade_submissions", exam_id=exam.id)
+    return render(request, "grade_exams.html", {"exam": exam, "submissions": submissions})
+
+
+
+@login_required
+def exam_update(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    if request.user != exam.course.teacher:
+        messages.error(request, "not allowed")
+        return redirect("exam_list", course_id=exam.course.id)
+
+    if request.method == "POST":
+        exam.title = request.POST.get("title")
+        exam.description = request.POST.get("description")
+        exam.deadline = request.POST.get("deadline")
+        exam.save()
+        messages.success(request)
+        return redirect("exam_list", course_id=exam.course.id)
+
+    return render(request, "exam_update.html", {"exam": exam})
+
+
+@login_required
+def exam_delete(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    course = exam.course
+    if request.user != course.teacher:
+        messages.error(request, "not allowed.")
+        return redirect("exam_list", course_id=course.id)
+
+    exam.delete()
+    messages.success(request)
+    return redirect("exam_list", course_id=course.id)
+
+@login_required
+def exam_submissions_view(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    submissions = ExamSubmission.objects.filter(exam=exam)
+
+    if request.method == 'POST':
+        submission_id = request.POST.get('submission_id')
+        grade = request.POST.get('grade')
+
+        submission = get_object_or_404(ExamSubmission, id=submission_id)
+        submission.grade = grade
+        submission.graded = True
+        submission.save()
+
+        return redirect('exam_submissions_view', exam_id=exam.id)
+
+    return render(request, 'grade_exams.html', {
+        'exam': exam,
+        'submissions': submissions
+    })
+
+
+@login_required
+def student_exams_view(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    exams = Exam.objects.filter(course=course)
+    submissions = ExamSubmission.objects.filter(student=request.user, exam__in=exams)
+    submitted_exam_ids = submissions.values_list('exam_id', flat=True)
+
+    if request.method == 'POST':
+        exam_id = request.POST.get('exam_id')
+        uploaded_file = request.FILES.get('file')
+
+        if exam_id and uploaded_file:
+            exam = get_object_or_404(Exam, id=exam_id)
+
+            if exam.deadline and timezone.now() > exam.deadline:
+                return render(request, 'assignment_error.html')
+
+            if ExamSubmission.objects.filter(student=request.user, exam=exam).exists():
+                return render(request, 'assignment_error.html')
+
+            ExamSubmission.objects.create(
+                exam=exam,
+                student=request.user,
+                file=uploaded_file
+            )
+            return redirect('student_course_exams', course_id=course.id)
+
+    return render(request, 'student_exams.html', {
+        'course': course,
+        'exams': exams,
+        'submitted_exam_ids': list(submitted_exam_ids),
+        'submissions': submissions,
+        'now': timezone.now()
+    })

@@ -47,5 +47,13 @@ urlpatterns = [
     path('conversation/<int:pk>/delete/', views.conversation_delete, name='conversation_delete'),
     path("contact/", views.contact, name="contact"),
     path("about/", views.about, name="about"),
+    path("courses/<int:course_id>/exams/", views.exam_list, name="exam_list"),
+    # path("exams/<int:exam_id>/submit/", views.submit_exam, name="submit_exam"),
+    path("exams/<int:exam_id>/grade/", views.grade_exams, name="grade_exams"),
+    path("courses/<int:course_id>/exams/add/", views.add_exam, name="add_exam"),
+    path("exam/<int:exam_id>/update/", views.exam_update, name="exam_update"),
+    path("exam/<int:exam_id>/delete/", views.exam_delete, name="exam_delete"),
+    path('teacher/exam/<int:exam_id>/submissions/', views.exam_submissions_view, name='exam_submissions_view'),
+    path('course/<int:course_id>/exams/', views.student_exams_view, name='student_course_exams'),
 ]
 

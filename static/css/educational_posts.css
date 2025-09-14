@@ -47,8 +47,9 @@
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
+    min-height: 320px;
 }
 
 .post-card:hover {
@@ -81,7 +82,13 @@
     line-height: 1.5;
     margin-bottom: 0.8rem;
     color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 
 .post-card-body small {
     font-size: 0.8rem;
@@ -105,13 +112,18 @@
     flex-direction: column;
     text-align: center;
 }
-
 .btn-edit, .btn-delete {
     font-size: 0.85rem;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
+    display: block;
+    width: 100%;
+    text-align: left; !important;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 .btn-edit {
@@ -126,13 +138,15 @@
 
 .btn-delete {
     background: #ffe0e0;
-    color: #cc0000; !important;
+    color: #cc0000;
 }
 
 .btn-delete:hover {
     background: #ffcccc;
     color: #990000;
 }
+
+
 
 
 .post-detail {

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Exams{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student_assignment.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="assignment-container">
+    <h2>Exams for {{ course.title }}</h2>
+
+    {% for exam in exams %}
+<div class="assignment-box">
+    <strong>{{ exam.title }}</strong> - {{ exam.deadline|date:"Y-m-d H:i" }}
+    <p>{{ exam.description }}</p>
+
+    {% if exam.file %}
+        <a href="{{ exam.file.url }}" download>
+            <button type="button">Download Exam File</button>
+        </a>
+    {% endif %}
+
+    {% if exam.id in submitted_exam_ids %}
+        <p>Already Submitted</p>
+    {% elif exam.deadline and exam.deadline < now %}
+        <p style="color:red;">Deadline Passed</p>
+    {% else %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="exam_id" value="{{ exam.id }}">
+            <input type="file" name="file" required accept="application/pdf">
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+
+    {% for submission in submissions %}
+        {% if submission.exam.id == exam.id and submission.grade %}
+            <div class="submission-feedback">
+                <p><strong>Grade:</strong> {{ submission.grade }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endfor %}
+
+</div>
+{% endblock %}

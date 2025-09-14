@@ -43,7 +43,7 @@
             {% for post in latest_posts %}
                 <div class="post-preview">
                     <div class="post-info">
-                        <h4>{{ post.title }}</h4>
+                        <h4 class="post-titles"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h4>
                         <p>{{ post.description|truncatewords:15 }}</p>
                         <small>By {{ post.teacher.username }} | {{ post.created|date:"Y-m-d" }}</small>
                     </div>

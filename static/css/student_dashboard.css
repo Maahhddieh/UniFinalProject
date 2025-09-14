@@ -222,4 +222,18 @@
     border-radius: 50%;
 }
 
+.exams-button {
+    background-color: #f2f0f0;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    position: relative;
+    text-decoration: none;
+    color: #333;
+}
 
+.exams-button:hover {
+    background-color: #ddd;
+}

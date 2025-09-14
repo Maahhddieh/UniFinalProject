@@ -1,0 +1,139 @@
+.exam-list-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.exam-list-container h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.course-name {
+    color: #0077cc;
+    font-weight: bold;
+}
+
+
+.btn-add-exam {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 4px 7px;
+    background: #28a745;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-add-exam:hover {
+    background: #218838;
+}
+
+.exam-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.exam-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+.exam-card:hover {
+    transform: translateY(-5px);
+}
+
+.exam-card h3 {
+    color: #222;
+    margin-bottom: 0.8rem;
+}
+
+.exam-card .desc {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+}
+
+.exam-card .meta {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 0.8rem;
+}
+
+.exam-actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.exam-actions a {
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-view {
+    background: #0077cc;
+    color: #fff;
+}
+
+.btn-view:hover {
+    background: #005fa3;
+}
+
+.btn-edit {
+    background: #ffc107;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+.no-exams {
+    text-align: center;
+    color: #777;
+    font-size: 1rem;
+    margin-top: 2rem;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 4px 7px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #2c80b4;
+}

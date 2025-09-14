@@ -50,6 +50,12 @@
                                <span class="notification-dot"></span>
                             {% endif %}
                         </a>
+                    <a href="{% url 'student_course_exams' enroll.course.id %}" class="exams-button">
+                            Exams
+                            {% if exams_notifications and exams_notifications|dict_key:enroll.course.id %}
+                               <span class="notification-dot"></span>
+                            {% endif %}
+                        </a>
                         <p>Grade: Not graded yet</p>
                     </li>
                 {% empty %}

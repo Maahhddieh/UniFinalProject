@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Exam{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/add_exam.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="exam-form-container">
+    <h2>➕ Add Exam for <span class="course-name">{{ course.title }}</span></h2>
+
+    <a href="{% url 'exam_list' course.id %}" class="back-button">← Back to Exams</a>
+
+    <form method="post" enctype="multipart/form-data" class="exam-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input id="title" type="text" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="deadline">Deadline:</label>
+            <input id="deadline" type="datetime-local" name="deadline">
+        </div>
+
+        <div class="form-group">
+            <label for="file">Upload File (optional):</label>
+            <input id="file" type="file" name="file">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Create Exam</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
